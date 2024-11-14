@@ -81,7 +81,7 @@ class TestSuite:
         for test in self.test_functions:
             print(test.__doc__)
 
-    def run(self, random_order: bool) -> None:
+    def run(self, random_order: bool = False) -> None:
         """Runs all the tests in the test suite.
 
         Args:

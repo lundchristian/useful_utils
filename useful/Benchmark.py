@@ -1,12 +1,12 @@
-# pylint: skip-file
-
 import time
 import platform
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
 class Benchmark:
-    def __init__(self, iterations=100):
+    """Benchmarking class inspired by the Deno benchmarking tool"""
+
+    def __init__(self, iterations: int = 100):
         self.function_list = []
         self.iterations = iterations
 
@@ -70,59 +70,3 @@ class Benchmark:
             string = f"\tx{round(slower, 2):<7} slower: {result['name']:<{lfn}}"
             print(string)
         print()
-
-
-################################################################################
-# sample functions to test the benchmarking class
-from functools import reduce
-import numpy as np
-
-
-def sum_for_each(arr):
-    sum = 0
-    for i in arr:
-        sum += i
-    return sum
-
-
-def sum_for_range(arr):
-    sum = 0
-    for i in range(len(arr)):
-        sum += arr[i]
-    return sum
-
-
-def call_sum(arr):
-    return sum(arr)
-
-
-def call_numpy_sum(arr):
-    return np.sum(arr)
-
-
-def sum_reduce(arr):
-    return reduce(lambda x, y: x + y, arr)
-
-
-################################################################################
-# run the benchmarking class
-import array
-
-bench = (
-    Benchmark()
-    .add(call_sum)
-    .add(sum_for_each)
-    .add(sum_for_range)
-    .add(sum_reduce)
-    .add(call_numpy_sum)
-)
-
-print("Benchmarking with list")
-arr = [i for i in range(1_000_0)]
-bench(arr)
-# print("Benchmarking with np array")
-# arr = np.array([i for i in range(1_000_0)])
-# bench(arr)
-# print("Benchmarking with array")
-# arr = array.array("i", [i for i in range(1_000_0)])
-# bench(arr)

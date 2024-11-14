@@ -1,6 +1,13 @@
-"""Example of how to use the TestSuite class to run tests"""
+"""Example using the TestSuite class"""
 
-from useful import TestSuite
+import os
+import sys
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from useful.TestSuite import TestSuite  # pylint: disable=C0413
 
 
 class TestStuff(TestSuite):
@@ -12,15 +19,15 @@ class TestStuff(TestSuite):
         super().__init__()
 
     def test_a(self) -> bool:
-        """Testing that a is true"""
+        """Example: Should PASS"""
         return True
 
     def test_b(self) -> bool:
-        """Testing that b is true"""
-        return True
+        """Example: Should FAIL"""
+        return False
 
     def test_c(self) -> bool:
-        """Testing that c is true"""
+        """Example: Should PASS"""
         return True
 
 
