@@ -1,6 +1,6 @@
 """Init file for useful package."""
 
-from useful.TestSuite import TestSuite
-from useful.Benchmark import Benchmark
+from useful.test_suite import TestSuite
+from useful.benchmark import Benchmark
 
 __all__ = ["TestSuite", "Benchmark"]
