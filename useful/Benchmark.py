@@ -1,3 +1,5 @@
+"""Benchmarking class inspired by the Deno benchmarking tool"""
+
 import time
 import platform
 from concurrent.futures import ProcessPoolExecutor, as_completed

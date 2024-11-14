@@ -1,2 +1,3 @@
-./vscode
+.vscode/
 notes.md
+**/__pycache__/
