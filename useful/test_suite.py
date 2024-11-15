@@ -17,9 +17,8 @@ class TestSuite:
     def __init__(self) -> None:
         """Initializes the test suite with all test functions.
 
-        This function should be called in the constructor of the
-        subclass. It will automatically find all test functions
-        in the subclass and store them in a list.
+        If you define a custom constructor, make sure to call
+        super().__init__() as it will automatically find all test functions.
         """
         self.test_functions: list[callable] = [
             getattr(self, func)
@@ -28,19 +27,30 @@ class TestSuite:
         ]
 
     def _pass(self) -> str:
-        """Returns '[+] PASS' formatted in green"""
+        """Note: Note: Intended as private method!
+
+        Returns '[+] PASS' formatted in green
+        """
         return "\033[92m[+] PASS\033[0m"
 
     def _fail(self) -> str:
-        """Returns '[-] FAIL' formatted in red"""
+        """Note: Note: Intended as private method!
+
+        Returns '[-] FAIL' formatted in red
+        """
         return "\033[91m[-] FAIL\033[0m"
 
     def _skip(self) -> str:
-        """Returns '[~] SKIP' formatted in yellow"""
+        """Note: Note: Intended as private method!
+
+        Returns '[~] SKIP' formatted in yellow
+        """
         return "\033[93m[~] SKIP\033[0m"
 
     def _run_tests(self, tests: list[callable]) -> bool:
-        """Runs all the tests in the list and prints the results.
+        """Note: Note: Intended as private method!
+
+        Runs all the tests in the list and prints the results.
 
         Args:
             tests (list[callable]): A list of test functions to run.
@@ -48,43 +58,33 @@ class TestSuite:
         Returns:
             bool: True if all tests pass, False otherwise.
         """
+
         passed: int = 0
         num_tests: int = len(tests)
+
         for test in tests:
             result = test()
+            assert (
+                isinstance(result, bool) or result == 0 or result == 1
+            ), "Test functions must return a boolean value or 0/1"
             passed += int(result)
             print(f"{self._pass() if result else self._fail()}\t{test.__doc__}")
+
         percent: float = (passed / num_tests) * 100
-        print(f"\n{passed} OF {num_tests} ({(percent):.2f}%) TESTS PASSED\n")
+        print(f"\n{passed} OF {num_tests} ({percent:.2f}%) TESTS PASSED\n")
         return passed == num_tests
-
-    def _any_tests(self) -> bool:
-        """Returns True if there are any tests in the test suite.
-
-        Returns:
-            bool: True if there are any tests, False otherwise.
-        """
-        return len(self.test_functions) > 0
-
-    def print_tests(self) -> None:
-        """Prints out all the test functions in the test suite."""
-        if not self._any_tests():
-            print("[~] NOTHING TO TEST\n")
-            return
-        for test in self.test_functions:
-            print(test.__doc__)
 
     def run(self, random_order: bool = False) -> None:
         """Runs all the tests in the test suite.
 
         Args:
-            random_order (bool): If True, tests will be run in a random order.
+            random_order (bool):
+                If True, tests will be run in a random order. Defaults to False.
         """
-        if not self._any_tests():
-            print("[~] NOTHING TO TEST\n")
-            return
-        print()
-        print("[~] SEQUENTIAL TEST RUN\n")
+
+        assert self.test_functions, "No tests found in test suite"
+
+        print("\n[~] SEQUENTIAL TEST RUN\n")
         sequential_passed: bool = self._run_tests(self.test_functions)
         if random_order and sequential_passed:
             print("[~] RUNNING TEST RUN\n")
