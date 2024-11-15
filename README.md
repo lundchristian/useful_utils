@@ -2,9 +2,27 @@
 
 _Useful utilities, only standard library dependencies_
 
-## Utility: Benchmark
+## Get Started
 
-Easily benchmark the bottlenecks in your code.
+Raw installation.
+
+```bash
+pip install useful-utils
+```
+
+Virtual environment installation.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install useful-utils
+```
+
+## Utilities
+
+### Benchmark
+
+Easily benchmark bottlenecks in your code.
 
 1. Identify the hotspot
 2. Isolate the hotspot code
@@ -50,4 +68,57 @@ Test: alternative_b    | Avg: 0.430 ms | Max: 0.818 ms | Min: 0.359 ms
 [-] x5.35    alternative_b
 ```
 
-## TestSuite
+### TestSuite
+
+Easily test your code without all of the usual overhead and complex
+configurations.
+
+```python
+from useful import TestSuite
+
+class TestStuff(TestSuite):
+    def test_a(self) -> bool:
+        return True
+
+    def test_b(self) -> bool:
+        return False
+
+    def test_c(self) -> bool:
+        return True
+
+if __name__ == "__main__":
+    suite = TestStuff()
+    suite.run(random_order=False) # default | alternatives: True, False
+```
+
+```bash
+[~] SEQUENTIAL TEST RUN
+
+[+] PASS        Example: Should PASS
+[-] FAIL        Example: Should FAIL
+[+] PASS        Example: Should PASS
+
+2 OF 3 (66.67%) TESTS PASSED
+```
+
+## Structure
+
+The `useful` directory is equivalent to the common `src` directory, here you
+will find the implementations.
+
+The `examples` directory contains some simple examples showcasing intended usage
+of the utilities.
+
+The `test` directory contains all tests.
+
+    .
+    ├── examples
+    │   ├── benchmark.py
+    │   └── test_suite.py
+    ├── test
+    │   ├── benchmark.py
+    │   └── test_suite.py
+    └── useful
+        ├── __init__.py
+        ├── benchmark.py
+        └── test_suite.py

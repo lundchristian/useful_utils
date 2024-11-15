@@ -58,6 +58,8 @@ class Benchmark:
         }
 
     def run(self, *args, **kwargs):
+        assert self.function_list, "No functions to benchmark"
+
         results = []
 
         with ProcessPoolExecutor() as executor:

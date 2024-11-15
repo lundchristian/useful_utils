@@ -8,7 +8,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.insert(1, project_root)
 
-from useful.benchmark import Benchmark  # pylint: disable=C0413
+from useful import Benchmark
 
 
 def loop_with_for_each(a):
@@ -22,7 +22,7 @@ def loop_with_for_each(a):
 def loop_with_range_func(a):
     """Benchmarking range"""
     acc = 0
-    for i in range(len(a)):  # pylint: disable=C0200
+    for i in range(len(a)):
         acc += a[i]
     return acc
 

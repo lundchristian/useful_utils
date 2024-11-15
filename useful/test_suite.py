@@ -83,6 +83,7 @@ class TestSuite:
         if not self._any_tests():
             print("[~] NOTHING TO TEST\n")
             return
+        print()
         print("[~] SEQUENTIAL TEST RUN\n")
         sequential_passed: bool = self._run_tests(self.test_functions)
         if random_order and sequential_passed:
