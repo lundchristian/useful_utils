@@ -1,6 +1,6 @@
 # README
 
-Useful utilities, no third-party dependencies but this one.
+_Useful utilities, only standard library dependencies_
 
 ## Utility: Benchmark
 
