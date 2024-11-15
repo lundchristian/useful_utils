@@ -1,10 +1,3 @@
-# pylint: disable=C0103
-"""
-Author: Christian Lund
-Date: 2024-10-02
-A simple test suite for testing your code.
-"""
-
 import random
 
 

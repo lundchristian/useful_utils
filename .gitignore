@@ -1,3 +1,5 @@
 .vscode/
+.venv/
 notes.md
 **/__pycache__/
+.misc/
