@@ -1,5 +1,8 @@
-.vscode/
+# specific directories
 .venv/
-notes.md
-**/__pycache__/
 .misc/
+.vscode/
+dist/
+
+# general directories
+**/__pycache__/
