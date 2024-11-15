@@ -19,15 +19,15 @@ class TestStuff(TestSuite):
         super().__init__()
 
     def test_a(self) -> bool:
-        """Example: Should PASS"""
+        """Example A: Should PASS"""
         return True
 
     def test_b(self) -> bool:
-        """Example: Should FAIL"""
-        return False
+        """Example B: Should PASS"""
+        return True
 
     def test_c(self) -> bool:
-        """Example: Should PASS"""
+        """Example C: Should PASS"""
         return True
 
 

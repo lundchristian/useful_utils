@@ -1,6 +1,8 @@
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
+from useful.common import okay, fail
+
 
 class Benchmark:
     """
@@ -58,23 +60,9 @@ class Benchmark:
             "sec",
         ], "Unit must be 'ns', 'us', 'ms', or 'sec'"
 
-        self.function_list = []
-        self.unit = unit
-        self.iterations = iterations
-
-    def _grn(self, msg: str) -> str:
-        """Note: Intended as private method!
-
-        Returns '[+] {msg}' formatted in green
-        """
-        return f"\033[92m[+] {msg}\033[0m"
-
-    def _red(self, msg: str) -> str:
-        """Note: Intended as private method!
-
-        Returns '[-] {msg}' formatted in red
-        """
-        return f"\033[91m[-] {msg}\033[0m"
+        self._function_list = []
+        self._unit = unit
+        self._iterations = iterations
 
     def _bench(self, func, *args, **kwargs):
         """Note: Intended as private method!
@@ -83,18 +71,18 @@ class Benchmark:
         """
         iteration_times = []
 
-        for _ in range(self.iterations):
+        for _ in range(self._iterations):
             start = time.perf_counter()
             _ = func(*args, **kwargs)
             stop = time.perf_counter()
             iteration_times.append(stop - start)
 
-        avg_sec = sum(iteration_times) / self.iterations
+        avg_sec = sum(iteration_times) / self._iterations
         max_sec = max(iteration_times)
         min_sec = min(iteration_times)
 
         return {
-            "id": self.function_list.index(func),
+            "id": self._function_list.index(func),
             "name": func.__name__,
             "sec": avg_sec,
             "max_sec": max_sec,
@@ -116,26 +104,26 @@ class Benchmark:
         Prints the results of the benchmark formatted nicely.
         """
         print()
-        print(f"Iterations: {self.iterations}")
+        print(f"Iterations: {self._iterations}")
         print()
 
         results = sorted(results, key=lambda x: x["sec"])
-        lfn = max(len(func.__name__) for func in self.function_list)
-        lbr = max(len(f"{result[self.unit]:.3f}") for result in results)
-        lmr = max(len(f"{result[f'max_{self.unit}']:.3f}") for result in results)
+        lfn = max(len(func.__name__) for func in self._function_list)
+        lbr = max(len(f"{result[self._unit]:.3f}") for result in results)
+        lmr = max(len(f"{result[f'max_{self._unit}']:.3f}") for result in results)
 
         for result in results:
             string = f"Test: {result['name']:<{lfn}} | "
-            string += f"Avg: {result[self.unit]:<{lbr}.3f} {self.unit} | "
-            string += f"Max: {result[f'max_{self.unit}']:<{lmr}.3f} {self.unit} | "
-            string += f"Min: {result[f'min_{self.unit}']:<{lbr}.3f} {self.unit}"
+            string += f"Avg: {result[self._unit]:<{lbr}.3f} {self._unit} | "
+            string += f"Max: {result[f'max_{self._unit}']:<{lmr}.3f} {self._unit} | "
+            string += f"Min: {result[f'min_{self._unit}']:<{lbr}.3f} {self._unit}"
             print(string)
 
         print()
         for i, result in enumerate(results):
-            slower = result[self.unit] / results[0][self.unit]
+            slower = result[self._unit] / results[0][self._unit]
             string = f"x{round(slower, 2):<7} {result['name']:<{lfn}}"
-            string = self._red(string) if i != 0 else self._grn(string)
+            string = fail(string) if i != 0 else okay(string)
             print(string)
         print()
 
@@ -148,19 +136,19 @@ class Benchmark:
         Returns:
             self: In order to chain multiple function calls.
         """
-        self.function_list.append(function)
+        self._function_list.append(function)
         return self
 
     def run(self, *args, **kwargs):
         """Benchmark all of the functions added to the execution list."""
 
-        assert self.function_list, "No functions to benchmark"
+        assert self._function_list, "No functions to benchmark"
 
         results = []
 
         with ProcessPoolExecutor() as executor:
             futures = []
-            for function in self.function_list:
+            for function in self._function_list:
                 called = executor.submit(self._bench, function, *args, **kwargs)
                 futures.append(called)
             for future in as_completed(futures):

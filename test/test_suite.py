@@ -13,11 +13,11 @@ class MetaTestSuite(TestSuite):
 
     def test_pass_color(self) -> bool:
         """Test the color of the pass message"""
-        return "\033[92m[+] PASS\033[0m" == self._pass()
+        return "\033[92m[+] PASS\033[0m" == self._grn()
 
     def test_fail_color(self) -> bool:
         """Test the color of the fail message"""
-        return "\033[91m[-] FAIL\033[0m" == self._fail()
+        return "\033[91m[-] FAIL\033[0m" == self._red()
 
     def test_skip_color(self) -> bool:
         """Test the color of the skip message"""

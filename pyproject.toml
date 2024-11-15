@@ -8,7 +8,7 @@ packages = ["useful"]
 [project]
 name = "useful-utils"
 version = "0.0.1"
-authors = [{ name = "Christian Lund", email = "lundchristian@mac.com" }]
+authors = [{ name = "Christian Lund", email = "contact@example.com" }]
 description = "Useful utilities, only standard library dependencies"
 readme = "README.md"
 requires-python = ">=3.8"
