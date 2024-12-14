@@ -8,26 +8,22 @@ if project_root not in sys.path:
 from useful import TestSuite
 
 
-class MetaTestSuite(TestSuite):
+class TestTestSuite(TestSuite):
     """Testing the TestSuite using the TestSuite"""
 
-    def test_pass_color(self) -> bool:
-        """Test the color of the pass message"""
-        return "\033[92m[+] PASS\033[0m" == self._grn()
-
-    def test_fail_color(self) -> bool:
-        """Test the color of the fail message"""
-        return "\033[91m[-] FAIL\033[0m" == self._red()
-
-    def test_skip_color(self) -> bool:
-        """Test the color of the skip message"""
-        return "\033[93m[~] SKIP\033[0m" == self._skip()
+    def test_no_functions(self) -> bool:
+        """Test that no functions will result in a failure"""
+        uut = TestSuite()
+        try:
+            uut.run()
+            return False
+        except AssertionError:
+            return True
 
 
 def main() -> None:
-    """Entrypoint"""
-    uut = MetaTestSuite()
-    uut.run()
+    suite = TestTestSuite()
+    suite.run()
 
 
 if __name__ == "__main__":
